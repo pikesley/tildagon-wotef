@@ -1,7 +1,7 @@
 # https://tildagon.badge.emfcamp.org/tildagon-apps/reference/ctx/#adding-images
 import os
 
-apps = os.listdir("/apps")
+apps = os.listdir("/apps")  # noqa: PTH208
 path = ""
 ASSET_PATH = "apps//"
 

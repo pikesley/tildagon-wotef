@@ -43,6 +43,6 @@ for move in Path("sources/bitmaps").glob("*"):
     for key, data in frames.items():
         slimmed = []
         for row in data.split("\n"):
-            slimmed.append(row[leading:-trailing])
+            slimmed.append(row[leading:-trailing])  # noqa: PERF401
 
         Path(outdir, f"{key}.txt").write_text("\n".join(slimmed))

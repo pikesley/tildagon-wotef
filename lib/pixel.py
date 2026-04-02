@@ -1,7 +1,7 @@
 class Pixel:
     """A square."""
 
-    def __init__(self, left, top, width, height, colour, opacity):
+    def __init__(self, left, top, width, height, colour, opacity):  # noqa: PLR0913
         """Construct."""
         self.left = left
         self.top = top

@@ -2,9 +2,8 @@ import json
 import os
 
 from .asset_path import ASSET_PATH
+from .conf import conf
 from .pixel import Pixel
-
-intervals = {"roundhouse": [3, 1, 1, 2, 2, 5, 1, 2]}
 
 
 class Fighter:
@@ -22,7 +21,8 @@ class Fighter:
 
         self.move = move
 
-        self.frame_index = 0
+        self.frame_indeces = conf["moves"][move]["order"]
+        self.intervals = conf["moves"][move]["intervals"]
 
         self.step_counter = 0
 
@@ -34,17 +34,23 @@ class Fighter:
         self.frames = []
         filepath = ASSET_PATH + "rle/" + move
 
-        files = os.listdir(filepath)
+        files = os.listdir(filepath)  # noqa: PTH208
         for file in sorted(files):
-            self.frames.append(json.loads(open(filepath + "/" + file).read()))
+            self.frames.append(json.loads(open(filepath + "/" + file).read()))  # noqa: PTH123, SIM115
 
         self.width = sum([x[1] for x in self.frames[0][0]])
         self.height = len(self.frames[0])
 
+    @property
+    def next(self):
+        """Next frame."""
+        return self.screens[self.frame_indeces[0]]
+
     def animate(self):
         """Animate."""
-        if self.step_counter > intervals[self.move][self.frame_index]:
-            self.frame_index = (self.frame_index + 1) % len(self.frames)
+        if self.step_counter > self.intervals[0]:
+            self.frame_indeces = self.frame_indeces[1:] + [self.frame_indeces[0]]
+            self.intervals = self.intervals[1:] + [self.intervals[0]]
             self.step_counter = 0
         else:
             self.step_counter += 1

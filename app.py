@@ -18,7 +18,7 @@ class Wotef(app.App):
         eventbus.emit(PatternDisable())
         self.button_states = Buttons(self)
         self.hue = 1.0
-        self.fighter = Fighter("roundhouse", hue=self.hue)
+        self.fighter = Fighter("straight-kick", hue=self.hue)
         self.leds = LEDLighter(0.5)
 
     def update(self, _):
@@ -33,8 +33,7 @@ class Wotef(app.App):
         self.overlays = []
         self.overlays.append(Background(colour=rgb_from_hue(self.hue)))
 
-        self.overlays.extend(self.fighter.screens[self.fighter.frame_index])
-
+        self.overlays.extend(self.fighter.next)
         self.draw_overlays(ctx)
 
     def scan_buttons(self):
