@@ -3,9 +3,9 @@ from pathlib import Path
 
 from PIL import Image
 
-for move in Path("crops").glob("*"):
+for move in Path("sources/crops").glob("*"):
     print(move)
-    outdir = Path("bitmaps", move.name)
+    outdir = Path("sources/bitmaps", move.name)
     outdir.mkdir(exist_ok=True, parents=True)
     for file in Path(move).glob("*"):
         img = Image.open(file)

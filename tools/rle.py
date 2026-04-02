@@ -21,12 +21,15 @@ if __name__ == "__main__":
     import json
     from pathlib import Path
 
-    move = "roundhouse"
+    for move in Path("sources/slimmed_bitmaps").glob("*"):
+        print(move)
+        outdir = Path("sources/rle", move.name)
+        outdir.mkdir(exist_ok=True, parents=True)
 
-    for file in Path("slimmed_bitmaps", move).glob("*.txt"):
-        data = file.read_text(encoding="utf-8").split("\n")
-        encoded = [run_length_encode(line) for line in data]
+        for file in Path(move).glob("*"):
+            data = file.read_text(encoding="utf-8").split("\n")
+            encoded = [run_length_encode(line) for line in data]
 
-        Path("rle", move, f"{file.stem}.json").write_text(
-            json.dumps(encoded), encoding="utf-8"
-        )
+            Path(outdir, f"{file.stem}.json").write_text(
+                json.dumps(encoded), encoding="utf-8"
+            )
