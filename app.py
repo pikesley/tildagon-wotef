@@ -12,7 +12,7 @@ from .lib.background import Background
 from .lib.conf import conf
 from .lib.fighter import Fighter
 
-# moves = list(conf["moves"].keys())
+moves = list(conf["moves"].keys())
 
 class Wotef(app.App):
     """Wotef."""
@@ -27,7 +27,7 @@ class Wotef(app.App):
 
     def update(self, _):
         """Update."""
-        self.hue += 0.01
+        self.hue += conf["hue-increment"]
         self.scan_buttons()
         self.fighter.animate()
         self.leds.light(self.hue)

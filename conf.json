@@ -1,4 +1,5 @@
 {
+  "hue-increment": 0.001,
   "moves": {
     "roundhouse": {
       "intervals": [

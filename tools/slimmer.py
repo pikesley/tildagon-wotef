@@ -4,6 +4,8 @@ frames = {}
 
 leading = 100
 trailing = 100
+top = 100
+bottom = 100
 
 for move in Path("sources/bitmaps").glob("*"):
     print(move)

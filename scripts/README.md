@@ -6,7 +6,7 @@ Start with correctly-numbered screens in `sources/caps`
 python tools/cropper.py
 ```
 
-> adjust posotion params
+> adjust position params - left and width are less critical, we'll trim those later
 
 ## Generate bitmaps
 

@@ -2,7 +2,7 @@ from pathlib import Path
 
 from PIL import Image
 
-left, top, width, height = 128, 329, 200, 110
+left, top, width, height = 128, 330, 200, 106
 
 for move in Path("sources/caps").glob("*"):
     print(move)
