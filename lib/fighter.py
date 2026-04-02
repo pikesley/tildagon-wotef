@@ -25,6 +25,7 @@ class Fighter:
         self.intervals = conf["moves"][move]["intervals"]
 
         self.step_counter = 0
+        self.frames_shown = 0
 
         self.load_frames(self.move)
         self.populate()
@@ -42,8 +43,14 @@ class Fighter:
         self.height = len(self.frames[0])
 
     @property
+    def done(self):
+        """Are we done."""
+        return self.frames_shown > len(self.frame_indeces)
+
+    @property
     def next(self):
         """Next frame."""
+        self.frames_shown += 1
         return self.screens[self.frame_indeces[0]]
 
     def animate(self):
