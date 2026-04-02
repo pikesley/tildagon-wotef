@@ -4,7 +4,7 @@ all: format test clean
 
 push: convert-conf
 	python -m mpremote cp -r app.py :/apps/${APP}/
-	python -m mpremote cp -r rle :/apps/${APP}/
+	python -m mpremote cp -r sources/rle :/apps/${APP}/
 	python -m mpremote cp -r lib :/apps/${APP}/
 	python -m mpremote cp -r common :/apps/${APP}/
 	python -m mpremote cp -r conf.json :/apps/${APP}/

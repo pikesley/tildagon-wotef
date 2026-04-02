@@ -64,7 +64,7 @@ class Fighter:
             counter = 0
             for item in row:
                 opacity = 1
-                if item[0] == "_":
+                if item[0] == "0":
                     opacity = 0
                 pix.append(
                     Pixel(
