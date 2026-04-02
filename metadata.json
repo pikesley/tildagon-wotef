@@ -1,0 +1,5 @@
+{
+    "name": "Wotef",
+    "path": "apps.wotef.app",
+    "callable": "Wotef"
+  }
