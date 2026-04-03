@@ -38,6 +38,19 @@ def encode_block(block):
     return result
 
 
+def scale_encode_block(block, scale):
+    """Scale-encode a block of text."""
+    scaled_lines = [scale_encode_line(line, scale=scale) for line in block.split("\n")]
+    result = []
+
+    for index, line in enumerate(scaled_lines):
+        offset = (len(scaled_lines) / 2) * scale
+        for item in line:
+            result.append(item + [index - offset])
+
+    return result
+
+
 if __name__ == "__main__":
     import json
     from pathlib import Path
