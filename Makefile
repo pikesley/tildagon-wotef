@@ -2,9 +2,14 @@ APP = $(shell basename $$(pwd))
 
 all: format test clean
 
+slim-push:
+	python -m mpremote cp -r app.py :/apps/${APP}/
+	python -m mpremote cp -r lib :/apps/${APP}/
+	python -m mpremote cp -r common :/apps/${APP}/
+
 push: convert-conf
 	python -m mpremote cp -r app.py :/apps/${APP}/
-	python -m mpremote cp -r sources/rle :/apps/${APP}/
+	python -m mpremote cp -r sources/encoded :/apps/${APP}/
 	python -m mpremote cp -r lib :/apps/${APP}/
 	python -m mpremote cp -r common :/apps/${APP}/
 	python -m mpremote cp -r conf.json :/apps/${APP}/

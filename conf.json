@@ -1,4 +1,9 @@
 {
+  "fighter-colour": [
+    0,
+    0,
+    0
+  ],
   "hue-increment": 0.001,
   "moves": {
     "roundhouse": {
@@ -41,5 +46,6 @@
         1
       ]
     }
-  }
+  },
+  "scale": 1.5
 }

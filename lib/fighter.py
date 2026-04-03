@@ -30,14 +30,16 @@ class Fighter:
     def load_frames(self, move):
         """Load frames."""
         self.frames = []
-        filepath = ASSET_PATH + "rle/" + move
+        filepath = ASSET_PATH + "encoded/" + move
 
         files = os.listdir(filepath)  # noqa: PTH208
         for file in sorted(files):
             self.frames.append(json.loads(open(filepath + "/" + file).read()))  # noqa: PTH123, SIM115
 
-        self.width = sum([x[1] for x in self.frames[0][0]])
-        self.height = len(self.frames[0])
+        self.width = 200
+        self.height = 200
+        # self.width = sum([x[1] for x in self.frames[0][0]])
+        # self.height = len(self.frames[0])
 
     @property
     def done(self):
@@ -68,27 +70,16 @@ class Fighter:
 
     def pixels(self, frame):
         """Draw."""
-        pix = []
-        start_x = self.x - (self.width * self.scale / 2)
-        start_y = self.y - (self.height * self.scale / 2)
-        colour = (0, 0, 0)
-        # colour = rgb_from_hue(self.hue)
-        for i, row in enumerate(frame):
-            counter = 0
-            for item in row:
-                opacity = 1
-                if item[0] == "0":
-                    opacity = 0
-                pix.append(
-                    Pixel(
-                        start_x + (counter * self.scale),
-                        start_y + (i * self.scale),
-                        self.scale * item[1],
-                        self.scale,
-                        colour,
-                        opacity,
-                    )
-                )
-                counter += item[1]
-
-        return pix
+        # pix = []
+        # start_x = self.x - (self.width * self.scale / 2)
+        # start_y = self.y - (self.height * self.scale / 2)
+        # # colour = (0, 0, 0)
+        # # colour = rgb_from_hue(self.hue)
+        # for i, row in enumerate(frame):
+        #     for item in row:
+        #            pix.append(
+        #             Pixel(
+        #                 it
+        #             )
+        #         )
+        return [Pixel(item) for item in frame]
