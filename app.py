@@ -6,14 +6,11 @@ from system.patterndisplay.events import PatternDisable
 
 import app
 
-from .common.colour_tools import rgb_from_hue
 from .common.led_lighter import LEDLighter
 from .common.rotation_monitor import RotationMonitor
 from .lib.background import Background
 from .lib.conf import conf
 from .lib.fighter import Fighter
-
-moves = list(conf["moves"].keys())
 
 
 class Wotef(app.App):
@@ -22,11 +19,21 @@ class Wotef(app.App):
     def __init__(self):
         """Construct."""
         eventbus.emit(PatternDisable())
+        self.moves = list(conf["moves"].keys())
         self.button_states = Buttons(self)
         self.hue = 1.0
-        self.fighter = Fighter(choice(moves))
         self.leds = LEDLighter(0.5)
         self.rotation_monitor = RotationMonitor()
+
+        self.next_move()
+
+    def next_move(self):
+        """Get next move."""
+        if conf["ordered"]:
+            self.moves = self.moves[1:] + [self.moves[0]]
+            self.fighter = Fighter(self.moves[0])
+        else:
+            self.fighter = Fighter(choice(self.moves))
 
     def update(self, _):
         """Update."""
@@ -37,13 +44,13 @@ class Wotef(app.App):
         self.fighter.animate()
 
         if self.fighter.done:
-            self.fighter = Fighter(choice(moves))
+            self.next_move()
 
     def draw(self, ctx):
         """Draw."""
         ctx.rotate(self.rotation_monitor.read())
         self.overlays = []
-        self.overlays.append(Background(colour=rgb_from_hue(self.hue)))
+        self.overlays.append(Background(self.hue))
 
         self.overlays.extend(self.fighter.next)
         self.draw_overlays(ctx)

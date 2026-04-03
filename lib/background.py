@@ -1,14 +1,20 @@
+from ..common.colour_tools import rgb_from_hue
+
+
 class Background:
     """Background."""
 
-    def __init__(
-        self,
-        colour=(0, 0, 0),
-        opacity=1,
-    ):
+    def __init__(self, hue):
         """Construct."""
-        self.colour = list(colour) + [opacity]
+        colour = rgb_from_hue(hue)
+        self.bottom_colour = [int(i * 255) for i in colour]
+        self.top_colour = [int(i * 127) for i in colour]
 
     def draw(self, ctx):
         """Draw ourself."""
-        ctx.rgba(*self.colour).rectangle(-120, -120, 240, 240).fill()
+        ctx.linear_gradient(0, -120, 0, 120)
+
+        ctx.add_stop(0.0, self.top_colour, 1.0)
+        ctx.add_stop(1.0, self.bottom_colour, 1.0)
+
+        ctx.rectangle(-120, -120, 240, 240).fill()
