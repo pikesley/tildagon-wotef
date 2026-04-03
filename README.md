@@ -1,3 +1,3 @@
-# Wotef
+# The Way of the Exploding Fist
 
-* run `python scripts/replace_wotef.py`
+Some ZX Spectrum Kung-Fu on your Tildagon badge
