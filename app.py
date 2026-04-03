@@ -1,4 +1,4 @@
-import gc
+from random import choice
 
 from events.input import BUTTON_TYPES, Buttons
 from system.eventbus import eventbus
@@ -23,35 +23,27 @@ class Wotef(app.App):
         eventbus.emit(PatternDisable())
         self.button_states = Buttons(self)
         self.hue = 1.0
-        self.fighter = Fighter("roundhouse", hue=self.hue)
+        self.fighter = Fighter("roundhouse")
         self.leds = LEDLighter(0.5)
 
     def update(self, _):
         """Update."""
-        # if not self.fighter:
-        #     self.fighter = Fighter(choice(moves), hue=self.hue)
         self.hue += conf["hue-increment"]
         self.scan_buttons()
         self.leds.light(self.hue)
 
-        if self.fighter:
-            self.fighter.animate()
-            gc.collect()
+        self.fighter.animate()
 
-        # if self.fighter.done:
-        #     self.fighter = None
-        #     gc.collect()
-
-        # gc.collect()
+        if self.fighter.done:
+            self.fighter = Fighter(choice(moves))
 
     def draw(self, ctx):
         """Draw."""
         self.overlays = []
         self.overlays.append(Background(colour=rgb_from_hue(self.hue)))
 
-        if self.fighter:
-            self.overlays.extend(self.fighter.next)
-            self.draw_overlays(ctx)
+        self.overlays.extend(self.fighter.next)
+        self.draw_overlays(ctx)
 
     def scan_buttons(self):
         """Buttons."""
