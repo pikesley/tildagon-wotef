@@ -1,5 +1,5 @@
+import gzip
 import json
-import os
 
 from .asset_path import ASSET_PATH
 from .conf import conf
@@ -28,12 +28,20 @@ class Fighter:
 
     def load_frames(self, move):
         """Load frames."""
-        self.frames = []
+        # self.frames = []
         filepath = ASSET_PATH + "encoded/" + move
 
-        files = os.listdir(filepath)  # noqa: PTH208
-        for file in sorted(files):
-            self.frames.append(json.loads(open(filepath + "/" + file).read()))  # noqa: PTH123, SIM115
+        self.frames = json.loads(
+            gzip.decompress(open(filepath + ".json.gz", "rb").read()).decode()
+        )
+
+        # files = os.listdir(filepath)
+        # for file in sorted(files):
+        #     self.frames.append(json.loads(open(filepath + "/" + file).read()))
+
+    def reset(self):
+        """Reset."""
+        self.frames_shown = 0
 
     @property
     def done(self):
