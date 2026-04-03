@@ -1,3 +1,10 @@
+from pathlib import Path
+
+import yaml
+
+conf = yaml.safe_load(Path("conf.yaml").read_text(encoding="utf-8"))
+
+
 def encode_line(line):
     """Encode just the `1`s from a line."""
     result = []
@@ -45,11 +52,14 @@ def scale_encode_block(block, scale):
 
     for index, line in enumerate(scaled_lines):
         offset = (len(scaled_lines) / 2) * scale
-        # for item in line:
-            # result.append(item + [index - offset])
         result.extend([item + [index - offset] for item in line])
 
     return result
+
+
+def encode(block):
+    """Encode."""
+    return scale_encode_block(block, conf["scale"])
 
 
 if __name__ == "__main__":
@@ -63,7 +73,7 @@ if __name__ == "__main__":
 
         for file in Path(move).glob("*"):
             data = file.read_text(encoding="utf-8")
-            encoded = encode_block(data)
+            encoded = encode(data)
 
             Path(outdir, f"{file.stem}.json").write_text(
                 json.dumps(encoded), encoding="utf-8"

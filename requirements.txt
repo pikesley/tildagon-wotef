@@ -3,3 +3,4 @@ pytest
 pytest-random-order
 ruff
 pillow
+pyyaml
