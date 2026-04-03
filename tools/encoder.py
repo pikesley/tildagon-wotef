@@ -45,8 +45,9 @@ def scale_encode_block(block, scale):
 
     for index, line in enumerate(scaled_lines):
         offset = (len(scaled_lines) / 2) * scale
-        for item in line:
-            result.append(item + [index - offset])
+        # for item in line:
+            # result.append(item + [index - offset])
+        result.extend([item + [index - offset] for item in line])
 
     return result
 
