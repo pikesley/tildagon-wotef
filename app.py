@@ -11,6 +11,7 @@ from .common.led_lighter import LEDLighter
 from .lib.background import Background
 from .lib.conf import conf
 from .lib.fighter import Fighter
+from .common.rotation_monitor import RotationMonitor
 
 moves = list(conf["moves"].keys())
 
@@ -25,6 +26,7 @@ class Wotef(app.App):
         self.hue = 1.0
         self.fighter = Fighter("roundhouse")
         self.leds = LEDLighter(0.5)
+        self.rotation_monitor = RotationMonitor()
 
     def update(self, _):
         """Update."""
@@ -39,6 +41,7 @@ class Wotef(app.App):
 
     def draw(self, ctx):
         """Draw."""
+        ctx.rotate(self.rotation_monitor.read())
         self.overlays = []
         self.overlays.append(Background(colour=rgb_from_hue(self.hue)))
 
