@@ -11,9 +11,6 @@ class Fighter:
 
     def __init__(self, move="roundhouse", hue=1.0):
         """Construct."""
-        self.width = 130
-        self.height = 131
-
         self.x = 0
         self.y = 0
         self.scale = 1.5
@@ -50,17 +47,20 @@ class Fighter:
     @property
     def next(self):
         """Next frame."""
-        self.frames_shown += 1
         return self.screens[self.frame_indeces[0]]
 
     def animate(self):
         """Animate."""
-        if self.step_counter > self.intervals[0]:
-            self.frame_indeces = self.frame_indeces[1:] + [self.frame_indeces[0]]
-            self.intervals = self.intervals[1:] + [self.intervals[0]]
-            self.step_counter = 0
-        else:
-            self.step_counter += 1
+        self.frame_indeces = self.frame_indeces[1:] + [self.frame_indeces[0]]
+        self.frames_shown += 1
+
+        # if self.step_counter > self.intervals[0]:
+        #     self.frame_indeces = self.frame_indeces[1:] + [self.frame_indeces[0]]
+        #     self.intervals = self.intervals[1:] + [self.intervals[0]]
+        #     self.step_counter = 0
+        #     self.frames_shown += 1
+        # else:
+        #     self.step_counter += 1
 
     def populate(self):
         """Pre-render pixels."""

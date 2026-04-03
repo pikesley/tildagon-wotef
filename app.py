@@ -5,6 +5,7 @@ from system.eventbus import eventbus
 from system.patterndisplay.events import PatternDisable
 
 import app
+import gc
 
 from .common.colour_tools import rgb_from_hue
 from .common.led_lighter import LEDLighter
@@ -27,21 +28,30 @@ class Wotef(app.App):
 
     def update(self, _):
         """Update."""
+        # if not self.fighter:
+        #     self.fighter = Fighter(choice(moves), hue=self.hue)
         self.hue += conf["hue-increment"]
         self.scan_buttons()
-        self.fighter.animate()
         self.leds.light(self.hue)
+
+        if self.fighter:
+            self.fighter.animate()
+            gc.collect()
+
         # if self.fighter.done:
         #     self.fighter = None
-        #     self.fighter = Fighter(choice(moves), hue=self.hue)
+        #     gc.collect()
+
+        # gc.collect()
 
     def draw(self, ctx):
         """Draw."""
         self.overlays = []
         self.overlays.append(Background(colour=rgb_from_hue(self.hue)))
 
-        self.overlays.extend(self.fighter.next)
-        self.draw_overlays(ctx)
+        if self.fighter:
+            self.overlays.extend(self.fighter.next)
+            self.draw_overlays(ctx)
 
     def scan_buttons(self):
         """Buttons."""
