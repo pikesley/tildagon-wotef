@@ -1,4 +1,4 @@
-from tools.encoder import encode_block, encode_line
+from tools.encoder import encode_block, encode_line, scale_encode_line
 
 
 def test_line_encode():
@@ -25,3 +25,9 @@ def test_block_encode():
         [2, 3, 2],
         [7, 1, 2],
     ]
+
+
+def test_scaled_encode_line():
+    """Test."""
+    assert scale_encode_line("11", scale=1) == [[-1, 2]]
+    assert scale_encode_line("1111", scale=1) == [[-2, 4]]

@@ -1,9 +1,10 @@
 from .conf import conf
 
+
 class Pixel:
     """A rectangle."""
 
-    def __init__(self, encoded):  # noqa: PLR0913
+    def __init__(self, encoded):
         """Construct."""
         self.left = encoded[0] * conf["scale"]
         self.width = encoded[1] * conf["scale"]

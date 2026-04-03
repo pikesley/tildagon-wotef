@@ -22,6 +22,19 @@ def encode_line(line):
     return result
 
 
+def scale_encode_line(line, scale):
+    """Encode with scale and offset."""
+    encoded = encode_line(line)
+    scaled = []
+
+    for e in encoded:
+        width = e[1]
+        offset = width / 2
+        scaled.append([0 - offset, width * scale])
+
+    return scaled
+
+
 def encode_block(block):
     """Encode a block of text."""
     lines = block.split("\n")
