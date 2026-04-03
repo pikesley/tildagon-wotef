@@ -49,10 +49,10 @@ def scale_encode_block(block, scale):
     """Scale-encode a block of text."""
     scaled_lines = [scale_encode_line(line, scale=scale) for line in block.split("\n")]
     result = []
+    offset = len(scaled_lines) / 2
 
     for index, line in enumerate(scaled_lines):
-        offset = (len(scaled_lines) / 2) * scale
-        result.extend([item + [index - offset] for item in line])
+        result.extend([item + [(index - offset) * scale] for item in line])
 
     return result
 

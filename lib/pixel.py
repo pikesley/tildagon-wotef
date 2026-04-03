@@ -6,9 +6,9 @@ class Pixel:
 
     def __init__(self, encoded):
         """Construct."""
-        self.left = encoded[0] * conf["scale"]
-        self.width = encoded[1] * conf["scale"]
-        self.top = encoded[2] * conf["scale"]
+        self.left = encoded[0]
+        self.width = encoded[1]
+        self.top = encoded[2]
 
         self.height = conf["scale"]
         self.colour = conf["fighter-colour"] + [1]
