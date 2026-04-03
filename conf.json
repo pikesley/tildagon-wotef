@@ -6,6 +6,70 @@
   ],
   "hue-increment": 0.001,
   "moves": {
+    "ground-kick": {
+      "intervals": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ],
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        2,
+        1
+      ]
+    },
+    "high-kick": {
+      "intervals": [
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ],
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        2,
+        1
+      ]
+    },
+    "high-punch": {
+      "intervals": [
+        0,
+        0,
+        3,
+        0
+      ],
+      "order": [
+        0,
+        1,
+        2,
+        1
+      ]
+    },
+    "low-kick": {
+      "intervals": [
+        0,
+        0,
+        3,
+        0
+      ],
+      "order": [
+        0,
+        1,
+        2,
+        1
+      ]
+    },
     "roundhouse": {
       "intervals": [
         0,
@@ -42,6 +106,20 @@
         1,
         2,
         3,
+        2,
+        1
+      ]
+    },
+    "straight-punch": {
+      "intervals": [
+        0,
+        0,
+        3,
+        0
+      ],
+      "order": [
+        0,
+        1,
         2,
         1
       ]

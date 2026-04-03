@@ -8,10 +8,10 @@ import app
 
 from .common.colour_tools import rgb_from_hue
 from .common.led_lighter import LEDLighter
+from .common.rotation_monitor import RotationMonitor
 from .lib.background import Background
 from .lib.conf import conf
 from .lib.fighter import Fighter
-from .common.rotation_monitor import RotationMonitor
 
 moves = list(conf["moves"].keys())
 
@@ -24,7 +24,7 @@ class Wotef(app.App):
         eventbus.emit(PatternDisable())
         self.button_states = Buttons(self)
         self.hue = 1.0
-        self.fighter = Fighter("roundhouse")
+        self.fighter = Fighter(choice(moves))
         self.leds = LEDLighter(0.5)
         self.rotation_monitor = RotationMonitor()
 
