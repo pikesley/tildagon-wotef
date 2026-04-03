@@ -18,6 +18,7 @@ class Fighter:
         self.move = move
 
         self.frame_indeces = conf["moves"][move]["order"]
+        self.intervals = conf["moves"][move]["intervals"]
 
         self.step_counter = 0
         self.frames_shown = 0
@@ -46,8 +47,13 @@ class Fighter:
 
     def animate(self):
         """Animate."""
-        self.frame_indeces = self.frame_indeces[1:] + [self.frame_indeces[0]]
-        self.frames_shown += 1
+        if self.step_counter > self.intervals[0]:
+            self.frame_indeces = self.frame_indeces[1:] + [self.frame_indeces[0]]
+            self.intervals = self.intervals[1:] + [self.intervals[0]]
+            self.frames_shown += 1
+            self.step_counter = 0
+        else:
+            self.step_counter += 1
 
     def populate(self):
         """Pre-render pixels."""
