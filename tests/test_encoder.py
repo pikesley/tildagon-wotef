@@ -31,3 +31,6 @@ def test_scaled_encode_line():
     """Test."""
     assert scale_encode_line("11", scale=1) == [[-1, 2]]
     assert scale_encode_line("1111", scale=1) == [[-2, 4]]
+
+    assert scale_encode_line("1001", scale=1) == [[-2, 1], [1, 1]]
+    assert scale_encode_line("1001", scale=2) == [[-4, 2], [2, 2]]
