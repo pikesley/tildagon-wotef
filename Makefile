@@ -30,12 +30,12 @@ generate:
 	python tools/cropper.py
 	python tools/bitmapper.py
 	python tools/slimmer.py
-	python tools/rle.py
+	python tools/encoder.py
 
 clean-sources:
 	rm -fr sources/bitmaps/
 	rm -fr sources/crops/
-	rm -fr sources/rle/
+	rm -fr sources/encoded/
 	rm -fr sources/slimmed_bitmaps/
 
 clean:

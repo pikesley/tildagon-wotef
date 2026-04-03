@@ -1,6 +1,6 @@
 def encode_line(line):
     """Encode just the `1`s from a line."""
-    data = []
+    result = []
 
     current = line[0]
     count = 0
@@ -11,28 +11,41 @@ def encode_line(line):
             count += 1
         else:
             if current == "1":
-                data.append((start_index, count))
+                result.append([start_index, count])
             current = char
             count = 1
             start_index = index
 
-    data.append((start_index, count))
-    return data
+    if current == "1":
+        result.append([start_index, count])
+
+    return result
 
 
-# if __name__ == "__main__":
-#     import json
-#     from pathlib import Path
+def encode_block(block):
+    """Encode a block of text."""
+    lines = block.split("\n")
+    result = []
 
-#     for move in Path("sources/slimmed_bitmaps").glob("*"):
-#         print(move)
-#         outdir = Path("sources/rle", move.name)
-#         outdir.mkdir(exist_ok=True, parents=True)
+    for index, line in enumerate(lines):
+        result.extend([x + [index] for x in encode_line(line)])
 
-#         for file in Path(move).glob("*"):
-#             data = file.read_text(encoding="utf-8").split("\n")
-#             encoded = [run_length_encode(line) for line in data]
+    return result
 
-#             Path(outdir, f"{file.stem}.json").write_text(
-#                 json.dumps(encoded), encoding="utf-8"
-#             )
+
+if __name__ == "__main__":
+    import json
+    from pathlib import Path
+
+    for move in Path("sources/slimmed_bitmaps").glob("*"):
+        print(move)
+        outdir = Path("sources/encoded", move.name)
+        outdir.mkdir(exist_ok=True, parents=True)
+
+        for file in Path(move).glob("*"):
+            data = file.read_text(encoding="utf-8")
+            encoded = encode_block(data)
+
+            Path(outdir, f"{file.stem}.json").write_text(
+                json.dumps(encoded), encoding="utf-8"
+            )
