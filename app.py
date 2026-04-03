@@ -1,11 +1,10 @@
-from random import choice
+import gc
 
 from events.input import BUTTON_TYPES, Buttons
 from system.eventbus import eventbus
 from system.patterndisplay.events import PatternDisable
 
 import app
-import gc
 
 from .common.colour_tools import rgb_from_hue
 from .common.led_lighter import LEDLighter
@@ -14,6 +13,7 @@ from .lib.conf import conf
 from .lib.fighter import Fighter
 
 moves = list(conf["moves"].keys())
+
 
 class Wotef(app.App):
     """Wotef."""
