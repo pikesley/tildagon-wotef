@@ -90,5 +90,5 @@ if __name__ == "__main__":
             # )
 
         Path(outdir, f"{move.name}.json.gz").write_bytes(
-            gzip.compress(json.dumps(frames).encode("utf-8"))
+            gzip.compress(json.dumps(frames).encode("utf-8"), mtime=None)
         )
