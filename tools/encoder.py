@@ -74,20 +74,13 @@ if __name__ == "__main__":
 
     for move in Path("sources/slimmed_bitmaps").glob("*"):
         print(move)
-        # outdir = Path("sources/encoded", move.name)
-        # outdir.mkdir(exist_ok=True, parents=True)
 
         frames = []
 
         for file in sorted(Path(move).glob("*")):
             data = file.read_text(encoding="utf-8")
             encoded = encode(data)
-
             frames.append(encoded)
-
-            # Path(outdir, f"{file.stem}.json").write_text(
-            #     json.dumps(encoded), encoding="utf-8"
-            # )
 
         Path(outdir, f"{move.name}.json.gz").write_bytes(
             gzip.compress(json.dumps(frames).encode("utf-8"), mtime=None)

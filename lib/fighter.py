@@ -28,16 +28,11 @@ class Fighter:
 
     def load_frames(self, move):
         """Load frames."""
-        # self.frames = []
-        filepath = ASSET_PATH + "encoded/" + move
+        filepath = ASSET_PATH + "sources/encoded/" + move
 
         self.frames = json.loads(
             gzip.decompress(open(filepath + ".json.gz", "rb").read()).decode()
         )
-
-        # files = os.listdir(filepath)
-        # for file in sorted(files):
-        #     self.frames.append(json.loads(open(filepath + "/" + file).read()))
 
     def reset(self):
         """Reset."""
