@@ -3,9 +3,11 @@
 /Makefile export-ignore
 /NOTES.md export-ignore
 /README.md export-ignore
-/conf.json export-ignore
+/conf.yaml export-ignore
 /data/bitmaps export-ignore
 /data/slimmed export-ignore
+/data/frames.json export-ignore
+/data/framesets.json export-ignore
 /metadata.json export-ignore
 /requirements.txt export-ignore
 /ruff.toml export-ignore
