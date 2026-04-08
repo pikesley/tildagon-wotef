@@ -8,20 +8,22 @@ from tools.encoder import (
 
 def test_line_encode():
     """Test."""
-    assert encode_line("111") == [[0, 3]]
-    assert encode_line("000111") == [[3, 3]]
-    assert encode_line("111000111") == [[0, 3], [6, 3]]
-    assert encode_line("111000111000") == [[0, 3], [6, 3]]
+    assert encode_line([1, 1, 1]) == [[0, 3]]
+    assert encode_line([0, 0, 0, 1, 1, 1]) == [[3, 3]]
+    assert encode_line([1, 1, 1, 0, 0, 0, 1, 1, 1]) == [[0, 3], [6, 3]]
+    assert encode_line([1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0]) == [[0, 3], [6, 3]]
 
 
 def test_block_encode():
     """Test."""
-    fixture = """000111000"""
+    fixture = [[0, 0, 0, 1, 1, 1, 0, 0, 0]]
     assert encode_block(fixture) == [[3, 3, 0]]
 
-    fixture = """111000111
-000111111
-101110010"""
+    fixture = [
+        [1, 1, 1, 0, 0, 0, 1, 1, 1],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 1, 0, 0, 1, 0],
+    ]
     assert encode_block(fixture) == [
         [0, 3, 0],
         [6, 3, 0],
@@ -34,17 +36,20 @@ def test_block_encode():
 
 def test_scaled_encoded_line():
     """Test."""
-    assert scale_encode_line("11", scale=1) == [[-1, 2]]
-    assert scale_encode_line("1111", scale=1) == [[-2, 4]]
+    assert scale_encode_line([1, 1], scale=1) == [[-1, 2]]
+    assert scale_encode_line([1, 1, 1, 1], scale=1) == [[-2, 4]]
 
-    assert scale_encode_line("1001", scale=1) == [[-2, 1], [1, 1]]
-    assert scale_encode_line("1001", scale=2) == [[-4, 2], [2, 2]]
+    assert scale_encode_line([1, 0, 0, 1], scale=1) == [[-2, 1], [1, 1]]
+    assert scale_encode_line([1, 0, 0, 1], scale=2) == [[-4, 2], [2, 2]]
 
 
 def test_scaled_endoded_block():
     """Test."""
-    fixture = """1001
-1001"""
+    fixture = [
+        [1, 0, 0, 1],
+        [1, 0, 0, 1],
+    ]
+
     assert scale_encode_block(fixture, scale=1) == [
         [-2, 1, -1],
         [1, 1, -1],

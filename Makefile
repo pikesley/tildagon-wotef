@@ -9,7 +9,8 @@ slim-push:
 
 push: convert-conf
 	python -m mpremote cp -r app.py :/apps/${APP}/
-	python -m mpremote cp -r sources/encoded/* :/apps/${APP}/sources/encoded/
+	python -m mpremote cp -r data/frames.json.gz :/apps/${APP}/data/
+	python -m mpremote cp -r data/framesets.json.gz :/apps/${APP}/data/
 	python -m mpremote cp -r lib :/apps/${APP}/
 	python -m mpremote cp -r common :/apps/${APP}/
 	python -m mpremote cp -r conf.json :/apps/${APP}/
@@ -18,8 +19,8 @@ push: convert-conf
 
 mkdir:
 	-python -m mpremote mkdir apps/${APP}
-	-python -m mpremote mkdir apps/${APP}/sources
-	-python -m mpremote mkdir apps/${APP}/sources/encoded
+	-python -m mpremote mkdir apps/${APP}/data
+	-python -m mpremote mkdir apps/${APP}/data
 
 connect:
 	python -m mpremote

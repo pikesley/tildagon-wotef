@@ -1,3 +1,9 @@
+hue-increment: 0.001
+fighter-colour: [0, 0, 0]
+
+# pre-rendering stuff only below here
+
+scale: 1.5
 moves:
   straight-punch:
     order: [0, 1, 2, 1]
@@ -22,8 +28,3 @@ moves:
   roundhouse:
     order: [0, 1, 2, 3, 4, 5, 6, 7]
     intervals: [0, 0, 0, 1, 1, 3, 0, 0]
-
-hue-increment: 0.001
-scale: 1.5
-fighter-colour: [0, 0, 0]
-ordered : false

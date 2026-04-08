@@ -1,3 +1,4 @@
+import gc
 from random import choice
 
 from events.input import BUTTON_TYPES, Buttons
@@ -24,16 +25,12 @@ class Wotef(app.App):
         self.hue = 1.0
         self.leds = LEDLighter(0.5)
         self.rotation_monitor = RotationMonitor()
-
+        self.fighter = Fighter()
         self.next_move()
 
     def next_move(self):
         """Get next move."""
-        if conf["ordered"]:
-            self.moves = self.moves[1:] + [self.moves[0]]
-            self.fighter = Fighter(self.moves[0])
-        else:
-            self.fighter = Fighter(choice(self.moves))
+        self.fighter.populate(choice(self.moves))
 
     def update(self, _):
         """Update."""
@@ -44,6 +41,7 @@ class Wotef(app.App):
         self.fighter.animate()
 
         if self.fighter.done:
+            gc.collect()
             self.next_move()
 
     def draw(self, ctx):

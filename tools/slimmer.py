@@ -1,22 +1,21 @@
+import json
 from pathlib import Path
+
+from conf import root
 
 frames = {}
 
 leading = 100
 trailing = 100
-top = 100
-bottom = 100
 
-for move in Path("sources/bitmaps").glob("*"):
-    print(move)
-    for j in Path(move).glob("*"):
-        frames[j.stem] = j.read_text(encoding="utf-8")
+for frame in Path(root, "bitmaps").glob("*"):
+    frames[frame.stem] = json.loads(frame.read_text(encoding="utf-8"))
 
     for data in frames.values():
-        for row in data.split("\n"):
+        for row in data:
             l_counter = 0
             for pixel in row:
-                if pixel != "0":
+                if pixel != 0:
                     if l_counter < leading:
                         leading = l_counter
                         break
@@ -25,26 +24,17 @@ for move in Path("sources/bitmaps").glob("*"):
 
             r_counter = 0
             for pixel in reversed(row):
-                if pixel != "0":
+                if pixel != 0:
                     if r_counter < trailing:
                         trailing = r_counter
                         break
                 else:
                     r_counter += 1
 
-leading -= 1
-trailing -= 1
 
-for move in Path("sources/bitmaps").glob("*"):
-    print(move)
-    outdir = Path("sources/slimmed_bitmaps", move.name)
-    outdir.mkdir(exist_ok=True, parents=True)
-    for j in Path(move).glob("*"):
-        frames[j.stem] = j.read_text(encoding="utf-8")
+outdir = Path(root, "slimmed")
+outdir.mkdir(exist_ok=True, parents=True)
 
-    for key, data in frames.items():
-        slimmed = []
-        for row in data.split("\n"):
-            slimmed.append(row[leading:-trailing])  # noqa: PERF401
-
-        Path(outdir, f"{key}.txt").write_text("\n".join(slimmed))
+for digest, frame in frames.items():
+    slimmed = [row[leading:-trailing] for row in frame]
+    Path(outdir, f"{digest}.json").write_text(json.dumps(slimmed))

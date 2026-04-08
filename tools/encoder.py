@@ -3,7 +3,7 @@ from pathlib import Path
 
 import yaml
 
-conf = yaml.safe_load(Path("conf.yaml").read_text(encoding="utf-8"))
+local_conf = yaml.safe_load(Path("conf.yaml").read_text(encoding="utf-8"))
 
 
 def encode_line(line):
@@ -18,13 +18,13 @@ def encode_line(line):
         if char == current:
             count += 1
         else:
-            if current == "1":
+            if current == 1:
                 result.append([start_index, count])
             current = char
             count = 1
             start_index = index
 
-    if current == "1":
+    if current == 1:
         result.append([start_index, count])
 
     return result
@@ -37,10 +37,9 @@ def scale_encode_line(line, scale):
 
 def encode_block(block):
     """Encode a block of text."""
-    lines = block.split("\n")
     result = []
 
-    for index, line in enumerate(lines):
+    for index, line in enumerate(block):
         result.extend([x + [index] for x in encode_line(line)])
 
     return result
@@ -48,7 +47,7 @@ def encode_block(block):
 
 def scale_encode_block(block, scale):
     """Scale-encode a block of text."""
-    scaled_lines = [scale_encode_line(line, scale=scale) for line in block.split("\n")]
+    scaled_lines = [scale_encode_line(line, scale=scale) for line in block]
     result = []
     offset = len(scaled_lines) / 2
 
@@ -60,28 +59,25 @@ def scale_encode_block(block, scale):
 
 def encode(block):
     """Encode."""
-    return scale_encode_block(block, conf["scale"])
+    return scale_encode_block(block, local_conf["scale"])
 
 
 if __name__ == "__main__":
     import json
     from pathlib import Path
 
-    outdir = Path(
-        "sources/encoded",
-    )
-    outdir.mkdir(exist_ok=True, parents=True)
+    from conf import root
 
-    for move in Path("sources/slimmed_bitmaps").glob("*"):
-        print(move)
+    frames = {}
+    for frame in Path(root, "slimmed").glob("*"):
+        data = json.loads(frame.read_text(encoding="utf-8"))
+        encoded = encode(data)
+        frames[frame.stem] = encoded
 
-        frames = []
-
-        for file in sorted(Path(move).glob("*")):
-            data = file.read_text(encoding="utf-8")
-            encoded = encode(data)
-            frames.append(encoded)
-
-        Path(outdir, f"{move.name}.json.gz").write_bytes(
-            gzip.compress(json.dumps(frames).encode("utf-8"), mtime=None)
+    Path(root, "frames.json.gz").write_bytes(
+        gzip.compress(
+            json.dumps(frames, separators=(",", ":")).encode("utf-8"), mtime=None
         )
+    )
+
+    Path(root, "frames.json").write_text(json.dumps(frames, indent=2))
