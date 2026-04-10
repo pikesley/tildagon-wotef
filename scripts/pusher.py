@@ -5,13 +5,13 @@ from pathlib import Path
 class PushManager:
     """Manage pushing."""
 
-    def __init__(self, app, app_root="."):
+    def __init__(self, app, app_root=".", includes="includes"):
         """Construct."""
         self.app = app
         self.app_root = Path(app_root)
 
         self.includes = (
-            Path(app_root, "includes").read_text(encoding="utf-8").strip().split("\n")
+            Path(app_root, includes).read_text(encoding="utf-8").strip().split("\n")
         )
 
         self.find_files()
@@ -102,19 +102,21 @@ def cp_dir(entry, app):
 
 
 if __name__ == "__main__":
-    inc = Path("includes")
+    import sys
+
+    includes = "includes"
+    if len(sys.argv) > 1:
+        includes = sys.argv[1]
+
+    inc = Path(includes)
     if not inc.exists():
-        print("`includes` needs to exist")
-        import sys
+        print(f"`{includes}` needs to exist")
         sys.exit(1)
 
     if Path("includes").stat().st_size == 0:
-        print("`includes` needs be populated")
-        import sys
+        print(f"`{includes}` needs be populated")
         sys.exit(1)
 
     app = Path(__file__).parent.parent.stem
-    pm = PushManager(app)
+    pm = PushManager(app, includes=includes)
     pm.push()
-
-# TODO make it take a different list

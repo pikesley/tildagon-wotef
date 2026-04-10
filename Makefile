@@ -5,6 +5,9 @@ all: format test clean
 push:
 	python scripts/pusher.py
 
+slim-push:
+	python scripts/pusher.py slim-includes
+
 connect:
 	python -m mpremote
 

@@ -50,7 +50,6 @@ class Wotef(app.App):
         """Set mode."""
         self.mode = mode
         self.fighter.mode = mode
-        # TODO update light pattern
 
     def draw(self, ctx):
         """Draw."""
