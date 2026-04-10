@@ -2,31 +2,13 @@ APP = $(shell basename $$(pwd))
 
 all: format test clean
 
-slim-push:
-	python -m mpremote cp -r app.py :/apps/${APP}/
-	python -m mpremote cp -r lib :/apps/${APP}/
-	python -m mpremote cp -r common :/apps/${APP}/
-
-push: convert-conf
-	python -m mpremote cp -r app.py :/apps/${APP}/
-	python -m mpremote cp -r data/frames.json.gz :/apps/${APP}/data/
-	python -m mpremote cp -r data/framesets.json.gz :/apps/${APP}/data/
-	python -m mpremote cp -r data/config.json.gz :/apps/${APP}/data/
-	python -m mpremote cp -r data/rainbow.json.gz :/apps/${APP}/data/
-	python -m mpremote cp -r lib :/apps/${APP}/
-	python -m mpremote cp -r common :/apps/${APP}/
-	python -m mpremote cp -r conf.json :/apps/${APP}/
-	python -m mpremote cp -r metadata.json :/apps/${APP}/
-	python -m mpremote cp -r tildagon.toml :/apps/${APP}/
-
-mkdir:
-	-python -m mpremote mkdir apps/${APP}
-	-python -m mpremote mkdir apps/${APP}/data
+push:
+	python scripts/pusher.py
 
 connect:
 	python -m mpremote
 
-deploy: mkdir push connect
+deploy: push connect
 
 convert-conf:
 	@python scripts/conf_yaml_to_json.py
