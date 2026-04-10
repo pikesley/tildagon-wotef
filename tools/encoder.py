@@ -57,27 +57,47 @@ def scale_encode_block(block, scale):
     return result
 
 
-def encode(block):
+def encode(block, scale):
     """Encode."""
-    return scale_encode_block(block, local_conf["scale"])
+    return scale_encode_block(block, scale)
 
 
 if __name__ == "__main__":
     import json
     from pathlib import Path
 
-    from conf import root
+    from conf import pre_render_conf, root
+
+    highest = 0
+    lowest = 0
 
     frames = {}
     for frame in Path(root, "slimmed").glob("*"):
         data = json.loads(frame.read_text(encoding="utf-8"))
-        encoded = encode(data)
+        encoded = encode(data, pre_render_conf["scale"])
         frames[frame.stem] = encoded
+
+        tops = [i[-1] for i in encoded]
+        lowest = max(lowest, *tops)
+        highest = min(highest, *tops)
 
     Path(root, "frames.json.gz").write_bytes(
         gzip.compress(
-            json.dumps(frames, separators=(",", ":")).encode("utf-8"), mtime=None
+            json.dumps(frames, separators=(",", ":")).encode("utf-8"), mtime=0
         )
     )
 
     Path(root, "frames.json").write_text(json.dumps(frames, indent=2))
+
+    render_config = {
+        "scale": pre_render_conf["scale"],
+        "min-y": highest,
+        "max-y": lowest,
+    }
+
+    Path(root, "config.json.gz").write_bytes(
+        gzip.compress(
+            json.dumps(render_config, separators=(",", ":")).encode("utf-8"), mtime=0
+        )
+    )
+    Path(root, "config.json").write_text(json.dumps(render_config, indent=2))

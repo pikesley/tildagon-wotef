@@ -11,6 +11,8 @@ push: convert-conf
 	python -m mpremote cp -r app.py :/apps/${APP}/
 	python -m mpremote cp -r data/frames.json.gz :/apps/${APP}/data/
 	python -m mpremote cp -r data/framesets.json.gz :/apps/${APP}/data/
+	python -m mpremote cp -r data/config.json.gz :/apps/${APP}/data/
+	python -m mpremote cp -r data/rainbow.json.gz :/apps/${APP}/data/
 	python -m mpremote cp -r lib :/apps/${APP}/
 	python -m mpremote cp -r common :/apps/${APP}/
 	python -m mpremote cp -r conf.json :/apps/${APP}/
@@ -19,7 +21,6 @@ push: convert-conf
 
 mkdir:
 	-python -m mpremote mkdir apps/${APP}
-	-python -m mpremote mkdir apps/${APP}/data
 	-python -m mpremote mkdir apps/${APP}/data
 
 connect:
@@ -39,6 +40,7 @@ generate:
 	python tools/bitmapper.py
 	python tools/slimmer.py
 	python tools/encoder.py
+	PYTHONPATH=common python tools/rainbow.py
 
 clean-sources:
 	rm -fr sources/bitmaps/

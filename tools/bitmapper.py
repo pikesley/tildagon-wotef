@@ -4,8 +4,10 @@ from hashlib import sha256
 from itertools import batched
 from pathlib import Path
 
-from conf import app_conf, clean, root
+from conf import clean, pre_render_conf, root
 from PIL import Image
+
+digest_length = 4
 
 clean()
 
@@ -19,7 +21,7 @@ for move in Path("sources/crops").glob("*"):
     fs = []
 
     for file in sorted(Path(move).glob("*")):
-        digest = sha256(file.read_bytes()).hexdigest()
+        digest = sha256(file.read_bytes()).hexdigest()[0:digest_length]
         fs.append(digest)
         img = Image.open(file)
         width = img.width
@@ -35,16 +37,15 @@ for move in Path("sources/crops").glob("*"):
 
         Path(bitmap_dir, f"{digest}.json").write_text(json.dumps(data))
 
-    framesets[move.stem] = [
-        (fs[i], app_conf["moves"][move.stem]["intervals"][i])
-        for i in app_conf["moves"][move.stem]["order"]
-    ]
+    # append the first frame at the end
+    intervals = pre_render_conf["moves"][move.stem]["intervals"] + [0]
+    ordering = pre_render_conf["moves"][move.stem]["order"] + [0]
+
+    framesets[move.stem] = [(fs[i], intervals[i]) for i in ordering]
 
 
 Path(root, "framesets.json.gz").write_bytes(
-    gzip.compress(
-        json.dumps(framesets, separators=(",", ":")).encode("utf-8"), mtime=None
-    )
+    gzip.compress(json.dumps(framesets, separators=(",", ":")).encode("utf-8"), mtime=0)
 )
 
 Path(root, "framesets.json").write_text(json.dumps(framesets, indent=2))

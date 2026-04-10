@@ -22,3 +22,13 @@ class LEDLighter:
             ]
 
         tildagonos.leds.write()
+
+    def light_rgb(self, rgb):
+        """Light with an RGB triple."""
+        colour = [
+            int(gamma_corrections[int(i * 255)] * self.brightness) for i in rgb[0:3]
+        ]
+        for i in range(18):
+            tildagonos.leds[i + 1] = colour
+
+        tildagonos.leds.write()

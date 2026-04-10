@@ -1,17 +1,30 @@
 import gzip
 import json
+import os
+from random import choice
 
-from .asset_path import ASSET_PATH
-from .pixel import Pixel
+if "Tildagon" in os.uname().machine:
+    from .asset_path import ASSET_PATH
+    from .expand_frameset import expand_frameset
+    from .pixel import Pixel
+
+else:
+    from lib.expand_frameset import expand_frameset
+    from lib.pixel import Pixel
+
+    ASSET_PATH = "tests/fixtures/"
 
 
 class Fighter:
     """A fighter."""
 
-    def __init__(self):
+    def __init__(self, mode):
         """Construct."""
         self.load_frames()
         self.load_framesets()
+        self.mode = mode
+
+        self.new_move()
 
     def load_frames(self):
         """Load frames."""
@@ -24,39 +37,29 @@ class Fighter:
         self.framesets = json.loads(
             gzip.decompress(open(filepath, "rb").read()).decode()
         )
-
-    def reset(self):
-        """Reset."""
-        self.frames_shown = 0
+        self.moves = list(self.framesets.keys())
 
     @property
     def done(self):
         """Are we done."""
-        return self.frames_shown > len(self.screens)
+        return self.frames_shown > len(self.frameset)
 
     @property
     def next(self):
         """Next frame."""
-        return self.screens[0]
+        return self.screen
+
+    def new_move(self):
+        """New move."""
+        self.move = choice(self.moves)
+        self.frameset = expand_frameset(self.framesets[self.move])
+        self.frames_shown = 0
 
     def animate(self):
         """Animate."""
-        if self.step_counter > self.intervals[0]:
-            self.screens = self.screens[1:] + [self.screens[0]]
-            self.intervals = self.intervals[1:] + [self.intervals[0]]
-            self.frames_shown += 1
-            self.step_counter = 0
-        else:
-            self.step_counter += 1
-
-    def populate(self, move):
-        """Pre-render pixels."""
-        frameset = self.framesets[move]
-        self.screens = [self.pixels(self.frames[frame[0]]) for frame in frameset]
-        self.intervals = [frame[1] for frame in frameset]
-        self.step_counter = 0
-        self.frames_shown = 0
-
-    def pixels(self, frame):
-        """Draw."""
-        return [Pixel(item) for item in frame]
+        self.screen = [
+            Pixel(item, coloured=self.mode == "rainbow")
+            for item in self.frames[self.frameset[0]]
+        ]
+        self.frameset = self.frameset[1:] + [self.frameset[0]]
+        self.frames_shown += 1

@@ -1,3 +1,2 @@
 ```
-for i in $(seq -f "%05g" 0 100000) ; do screencapture -x -R0,0,1600,1200 caps/"screen_${i}.png"; sleep 0.01 ; done
-```
+for i in $(seq -f "%05g" 0 10000) ; do scrot -u -q 100 caps/${i}.png ; done```
