@@ -2,7 +2,7 @@ APP = $(shell basename $$(pwd))
 
 all: format test clean
 
-push:
+push: convert-conf
 	python scripts/pusher.py
 
 slim-push:
