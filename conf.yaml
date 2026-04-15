@@ -1,3 +1,5 @@
 hue-increment: 0.001
 rainbow-rotation-rate: 1
 start-mode: rainbow
+led-decay-rate: 0.2
+led-brightness: 0.5

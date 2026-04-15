@@ -5,7 +5,7 @@ from PIL import Image
 left, top, width, height = 128, 330, 200, 106
 
 for move in Path("sources/caps").glob("*"):
-    print(move)
+    # print(move)
     outdir = Path("sources/crops", move.name)
     outdir.mkdir(exist_ok=True, parents=True)
 

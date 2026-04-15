@@ -31,7 +31,7 @@ mappings = [
 
 data = {"rainbow": rainbow, "index-mappings": mappings}
 
-Path(root, "rainbow.json.gz").write_bytes(
+Path("rainbow.json.gz").write_bytes(
     gzip.compress(json.dumps(data, separators=(",", ":")).encode("utf-8"), mtime=0)
 )
 Path(root, "rainbow.json").write_text(json.dumps(data, indent=2))

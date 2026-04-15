@@ -17,7 +17,7 @@ bitmap_dir.mkdir(exist_ok=True, parents=True)
 framesets = {}
 
 for move in Path("sources/crops").glob("*"):
-    print(move)
+    # print(move)
     fs = []
 
     for file in sorted(Path(move).glob("*")):
@@ -38,13 +38,16 @@ for move in Path("sources/crops").glob("*"):
         Path(bitmap_dir, f"{digest}.json").write_text(json.dumps(data))
 
     # append the first frame at the end
-    intervals = pre_render_conf["moves"][move.stem]["intervals"] + [0]
-    ordering = pre_render_conf["moves"][move.stem]["order"] + [0]
+    intervals = pre_render_conf["moves"][move.stem]["intervals"] + [0, 0]
+    ordering = pre_render_conf["moves"][move.stem]["order"] + [0, 0]
 
-    framesets[move.stem] = [(fs[i], intervals[i]) for i in ordering]
+    framesets[move.stem] = {
+        "frames": [(fs[i], intervals[i]) for i in ordering],
+        "impact-frame": pre_render_conf["moves"][move.stem]["impact"],
+    }
 
 
-Path(root, "framesets.json.gz").write_bytes(
+Path("framesets.json.gz").write_bytes(
     gzip.compress(json.dumps(framesets, separators=(",", ":")).encode("utf-8"), mtime=0)
 )
 

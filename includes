@@ -1,9 +1,9 @@
 app.py
-data/frames.json.gz
-data/framesets.json.gz
-data/config.json.gz
-data/rainbow.json.gz
-lib
 common
-conf.json
+lib
 metadata.json
+conf.json.gz
+frames.json.gz
+framesets.json.gz
+rainbow.json.gz
+tildagon.toml

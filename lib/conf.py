@@ -3,12 +3,10 @@ import json
 
 from .asset_path import ASSET_PATH
 
-with open(ASSET_PATH + "conf.json") as j:
-    conf = json.loads(j.read())
+conf = json.loads(
+    gzip.decompress(open(ASSET_PATH + "conf.json.gz", "rb").read()).decode()
+)
 
-filepath = ASSET_PATH + "data/config.json.gz"
-render_config = json.loads(gzip.decompress(open(filepath, "rb").read()).decode())
-scale = render_config["scale"]
-
-filepath = ASSET_PATH + "data/rainbow.json.gz"
-rainbow = json.loads(gzip.decompress(open(filepath, "rb").read()).decode())
+rainbow = json.loads(
+    gzip.decompress(open(ASSET_PATH + "rainbow.json.gz", "rb").read()).decode()
+)

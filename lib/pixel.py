@@ -1,11 +1,11 @@
 import os
 
 if "Tildagon" in os.uname().machine:
-    from .conf import rainbow, render_config
+    from .conf import conf, rainbow
 
 
-max_y, min_y = render_config["max-y"], render_config["min-y"]
-scale = render_config["scale"]
+max_y, min_y = conf["max-y"], conf["min-y"]
+scale = conf["scale"]
 index_mappings = rainbow["index-mappings"]
 
 

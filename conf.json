@@ -1,5 +1,10 @@
 {
   "hue-increment": 0.001,
+  "led-brightness": 0.5,
+  "led-decay-rate": 0.2,
+  "max-y": 78.0,
+  "min-y": -79.5,
   "rainbow-rotation-rate": 1,
+  "scale": 1.5,
   "start-mode": "rainbow"
 }

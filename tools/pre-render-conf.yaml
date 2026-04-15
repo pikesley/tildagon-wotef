@@ -1,27 +1,33 @@
 scale: 1.5
-led-brightness: 0.5
 
 moves:
-  straight-punch:
-    order: [0, 1, 2, 1]
-    intervals: [0, 0, 3, 0]
   high-punch:
     order: [0, 1, 2, 1]
-    intervals: [0, 0, 3, 0]
-
-  straight-kick:
-    order: [0, 1, 2, 3, 2, 1]
-    intervals: [0, 0, 0, 3, 0, 0]
-  low-kick:
+    intervals: [0, 0, 2, 0]
+    impact: 3
+  straight-punch:
     order: [0, 1, 2, 1]
-    intervals: [0, 0, 3, 0]
+    intervals: [0, 0, 2, 0]
+    impact: 3
+
   high-kick:
     order: [0, 1, 2, 3, 2, 1]
-    intervals: [0, 0, 0, 3, 0, 0]
+    intervals: [0, 0, 0, 2, 0, 0]
+    impact: 4
+  straight-kick:
+    order: [0, 1, 2, 3, 2, 1]
+    intervals: [0, 0, 0, 2, 0, 0]
+    impact: 4
+  low-kick:
+    order: [0, 1, 2, 1]
+    intervals: [0, 0, 2, 0]
+    impact: 3
   ground-kick:
     order: [0, 1, 2, 3, 2, 1]
     intervals: [0, 0, 0, 3, 0, 0]
+    impact: 4
 
   roundhouse:
     order: [0, 1, 2, 3, 4, 5, 6, 7]
-    intervals: [0, 0, 0, 1, 1, 2, 0, 0]
+    intervals: [0, 0, 0, 0, 0, 2, 0, 0]
+    impact: 6

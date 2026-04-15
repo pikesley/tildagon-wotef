@@ -13,6 +13,7 @@ cd ${OUTDIR}
 
 tar xvf rc.tar
 
-cd wotef
-python -m mpremote fs mkdir :/apps/wotef
-python -m mpremote fs cp -r * :/apps/wotef
+cd ${APP}
+python -m mpremote fs rm -r :/apps/${APP}
+python -m mpremote fs mkdir :/apps/${APP}
+python -m mpremote fs cp -r * :/apps/${APP}

@@ -1,3 +1,5 @@
+from system.eventbus import eventbus
+from system.patterndisplay.events import PatternDisable
 from tildagonos import tildagonos
 
 from .colour_tools import rgb_from_hue
@@ -9,6 +11,7 @@ class LEDLighter:
 
     def __init__(self, brightness):
         """Construct."""
+        eventbus.emit(PatternDisable())
         self.brightness = brightness
 
     def light(self, hue, secondary_hue=None):

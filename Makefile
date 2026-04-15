@@ -1,6 +1,6 @@
 APP = $(shell basename $$(pwd))
 
-all: format test clean
+all: format test generate clean
 
 push: convert-conf
 	python scripts/pusher.py
@@ -13,6 +13,12 @@ connect:
 
 deploy: push connect
 
+uninstall:
+	python -m mpremote fs rm -r :/apps/${APP}
+
+excludes:
+	python scripts/excluder.py
+
 convert-conf:
 	@python scripts/conf_yaml_to_json.py
 
@@ -20,7 +26,12 @@ format:
 	ruff format
 	ruff check --fix
 
-generate:
+generate: pre-render clean
+
+test-release:
+	bash scripts/test-release.sh
+
+pre-render:
 	python tools/cropper.py
 	python tools/bitmapper.py
 	python tools/slimmer.py

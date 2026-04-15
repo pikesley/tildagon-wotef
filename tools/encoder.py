@@ -81,7 +81,7 @@ if __name__ == "__main__":
         lowest = max(lowest, *tops)
         highest = min(highest, *tops)
 
-    Path(root, "frames.json.gz").write_bytes(
+    Path("frames.json.gz").write_bytes(
         gzip.compress(
             json.dumps(frames, separators=(",", ":")).encode("utf-8"), mtime=0
         )
@@ -93,6 +93,7 @@ if __name__ == "__main__":
         "scale": pre_render_conf["scale"],
         "min-y": highest,
         "max-y": lowest,
+        "led-brightness": local_conf["led-brightness"],
     }
 
     Path(root, "config.json.gz").write_bytes(
